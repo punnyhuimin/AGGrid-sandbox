@@ -49,14 +49,14 @@ export default ({
       }}
     >
       <TextField
-        id={`${rowIndex}-textfield1`}
+        id={`${rowIndex}-1-textfield`}
         value={value || ""}
         ref={refInput}
         style={{ width: "100%" }}
         onChange={(event) => updateValue(event.target.value)}
       />
       <TextField
-        id={`${rowIndex}-textfield2`}
+        id={`${rowIndex}-2-textfield`}
         value={value || ""}
         ref={refInput}
         style={{ width: "100%" }}

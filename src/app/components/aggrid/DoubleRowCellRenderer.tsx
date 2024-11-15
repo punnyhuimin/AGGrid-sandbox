@@ -9,7 +9,7 @@ export const DoubleRowCellRenderer = (params: ICellRendererParams) => {
       const clickedEle = e.target as HTMLInputElement;
       const eleId = clickedEle.id;
       // const ele = window.document.getElementById(context);
-      const ele = document.getElementById(eleId);
+      const ele = document.getElementById(`${eleId}-textfield`);
       if (ele) {
         ele.focus();
       }
@@ -18,18 +18,22 @@ export const DoubleRowCellRenderer = (params: ICellRendererParams) => {
 
   return (
     <div style={{ display: "flex", width: "100%", flexDirection: "column" }}>
-      <TextField
-        id={`${node.rowIndex}-textfield1`}
-        value={value || ""}
-        style={{ width: "100%" }}
-        onClick={() => window.alert("clicked")}
-      />
-      <TextField
-        id={`${node.rowIndex}-textfield2`}
-        value={value || ""}
-        style={{ width: "100%" }}
-        onClick={() => window.alert("clicked")}
-      />
+      <div id={`${node.rowIndex}-1`}>
+        <TextField
+          id={`${node.rowIndex}-1-textfield`}
+          value={value || ""}
+          style={{ width: "100%" }}
+          onClick={() => window.alert("clicked")}
+        />
+      </div>
+      <div id={`${node.rowIndex}-1`}>
+        <TextField
+          id={`${node.rowIndex}-2-textfield`}
+          value={value || ""}
+          style={{ width: "100%" }}
+          onClick={() => window.alert("clicked")}
+        />
+      </div>
     </div>
   );
 };
