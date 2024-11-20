@@ -11,7 +11,7 @@ import "@ag-grid-community/styles/ag-theme-quartz.css";
 import { useColorScheme } from "@mui/material";
 import React, { useState, MouseEvent, useMemo } from "react";
 import { DoubleRowCellRenderer } from "./DoubleRowCellRenderer";
-import { GridApi, GridReadyEvent } from "ag-grid-community";
+import { CellClickedEvent, GridApi, GridReadyEvent } from "ag-grid-community";
 import DoubleRowCellEditor from "./DoubleRowCellEditor";
 
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
@@ -54,6 +54,31 @@ export const CustomAggrid = () => {
     ];
   }, []);
   const resolvedMode = (systemMode || mode) as "light" | "dark";
+
+  const onCellClicked = (event: CellClickedEvent) => {
+    const currNode = event.node;
+    const div = document.getElementById(`${currNode.rowIndex}-2`);
+    if (div !== null) {
+      div.addEventListener("click", (e: Event) => {
+        if (e.target) {
+          const clickedEle = e.target as HTMLInputElement;
+          const eleId = clickedEle.id;
+          const ele = document.getElementById(`${eleId}-textfield`);
+          if (ele) {
+            ele.focus();
+          }
+        }
+      });
+    }
+    // if (event.column.getColId() !== "price.value") return;
+    // if (priorRowIndex > -1) {
+    //   const priorNode = event.api.getModel().rowsToDisplay[priorRowIndex];
+    //   priorNode.setDataValue("price.flag", false);
+    // }
+    // // event.api.forEachNode((node) => node.setDataValue("price.flag", false));
+    // event.node.setDataValue("price.flag", true);
+    // priorRowIndex = event.rowIndex;
+  };
 
   return (
     <div style={{ width: "100%", height: "400px" }}>
