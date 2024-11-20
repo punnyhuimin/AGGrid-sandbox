@@ -36,7 +36,6 @@ const TestContextMenu = () => {
       position: { x: x, y: y },
       toggled: true,
     };
-    console.log("newContextMenu", newContextMenu);
     setContextMenu(newContextMenu);
   };
   return (

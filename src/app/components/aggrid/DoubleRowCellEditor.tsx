@@ -1,6 +1,6 @@
-import { ICellEditor } from "@ag-grid-community/core";
-import { CustomCellEditorProps } from "@ag-grid-community/react";
 import { TextField } from "@mui/material";
+import { ICellEditor } from "ag-grid-community";
+import { CustomCellEditorProps } from "ag-grid-react";
 import React, { useEffect, useRef } from "react";
 
 export interface MySimpleInterface extends ICellEditor {

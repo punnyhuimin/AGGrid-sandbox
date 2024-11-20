@@ -13,16 +13,13 @@
     "format": "npm run prettier:fix && npm run lint:fix"
   },
   "dependencies": {
-    "@ag-grid-community/client-side-row-model": "^32.3.3",
-    "@ag-grid-community/core": "^32.3.3",
-    "@ag-grid-community/react": "^32.3.3",
-    "@ag-grid-community/styles": "^32.3.3",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.1.7",
     "@mui/material": "^6.1.7",
     "@mui/x-date-pickers": "^7.22.2",
     "ag-grid-community": "^32.3.3",
+    "ag-grid-enterprise": "^32.3.3",
     "ag-grid-react": "^32.3.3",
     "dayjs": "^1.11.13",
     "next": "15.0.3",
