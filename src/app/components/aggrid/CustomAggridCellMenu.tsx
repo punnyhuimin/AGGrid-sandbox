@@ -1,13 +1,7 @@
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useColorScheme } from "@mui/material";
-import React, {
-  useState,
-  useMemo,
-  useRef,
-  useEffect,
-  SyntheticEvent,
-} from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import { DoubleRowCellRenderer } from "./DoubleRowCellRenderer";
 import {
   ModuleRegistry,
@@ -16,7 +10,6 @@ import {
   ColDef,
   ValueGetterParams,
   CellContextMenuEvent,
-  IContextMenuParams,
 } from "ag-grid-community";
 import DoubleRowCellEditor from "./DoubleRowCellEditor";
 
@@ -27,6 +20,7 @@ import {
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
 import CustomContextMenu from "../contextMenu/CustomContextMenu";
+import { IRowData } from "./CustomAggridRowMenu";
 LicenseManager.setLicenseKey("KEY HERE");
 
 ModuleRegistry.registerModules([
@@ -35,17 +29,24 @@ ModuleRegistry.registerModules([
   MenuModule,
 ]);
 
-export const CustomAggrid = () => {
-  const { mode, systemMode, setMode } = useColorScheme();
+/**
+ *
+ * @returns table with custom context menu
+ */
+export const CustomAggridCellMenu = () => {
+  const { mode, systemMode } = useColorScheme();
 
-  const [rowData, setRowData] = useState<any[]>([
-    { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-    { make: "Ford", model: "F-Series", price: 33850, electric: false },
-    { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-    { make: "Mercedes", model: "EQA", price: 48890, electric: true },
-    { make: "Fiat", model: "500", price: 15774, electric: false },
-    { make: "Nissan", model: "Juke", price: 20675, electric: false },
-  ]);
+  const rowData = useMemo<IRowData[]>(
+    () => [
+      { make: "Tesla", model: "Model Y", price: 64950, electric: true },
+      { make: "Ford", model: "F-Series", price: 33850, electric: false },
+      { make: "Toyota", model: "Corolla", price: 29600, electric: false },
+      { make: "Mercedes", model: "EQA", price: 48890, electric: true },
+      { make: "Fiat", model: "500", price: 15774, electric: false },
+      { make: "Nissan", model: "Juke", price: 20675, electric: false },
+    ],
+    []
+  );
 
   const columnDefs = useMemo<(ColDef<any, any> | ColGroupDef<any>)[]>(() => {
     return [
@@ -62,8 +63,6 @@ export const CustomAggrid = () => {
       { field: "electric", flex: 1 },
       {
         field: "button",
-        // cellRenderer: DoubleRowCellRendererAggrid,
-        // contextMenuItems: getContextMenuItems,
         cellRenderer: DoubleRowCellRenderer,
         cellEditor: DoubleRowCellEditor,
         editable: true,
@@ -92,18 +91,18 @@ export const CustomAggrid = () => {
 
   const handleCellContextMenu = (e: CellContextMenuEvent) => {
     // check if this column is button
-    // e.event?.preventDefault();
     if (e.colDef.field === "button" && contextMenuRef.current) {
-      // e.api.showContextMenu(["copy"] as IContextMenuParams);
       const contextMenuAttr = contextMenuRef.current.getBoundingClientRect();
       if (e.event) {
         const event = e.event as PointerEvent;
         const isLeft = event.clientX < window.innerWidth / 2;
 
-        let x = event.clientX;
+        let x;
         let y = event.clientY;
-        if (!isLeft && contextMenuAttr) {
-          x = event.clientX - contextMenuAttr.width;
+        if (isLeft) {
+          x = event.clientX;
+        } else {
+          x = event.clientX - (contextMenuAttr?.width || 0);
         }
 
         const newContextMenu = {
@@ -126,11 +125,9 @@ export const CustomAggrid = () => {
   }
 
   useEffect(() => {
-    function handler(e: MouseEvent) {
+    function handler() {
       if (contextMenuRef.current) {
-        if (!contextMenuRef.current.contains(e.target)) {
-          resetContextMenu();
-        }
+        resetContextMenu();
       }
     }
 
@@ -162,8 +159,6 @@ export const CustomAggrid = () => {
           suppressContextMenu
           preventDefaultOnContextMenu
           onCellContextMenu={handleCellContextMenu}
-          // getContextMenuItems={getContextMenuItems}
-          // context={selectedCellId}
           popupParent={popupParent} // Need to do this to ensure that the popup falls outside of the table
         />
         <CustomContextMenu

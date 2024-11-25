@@ -33,8 +33,13 @@ export const DoubleRowCellRenderer = (params: ICellRendererParams) => {
   const { node } = params;
 
   const handleClick = (e: SyntheticEvent) => {
-    // Getting triggered irregardless of click or right click. Not sure how to differentiate the two events
+    // TODO: Getting triggered irregardless of click or right click. Not sure how to differentiate the two events
     console.log(e.eventPhase, e.nativeEvent);
+
+    const mouse = e.nativeEvent as MouseEvent<HTMLDivElement>;
+    console.log("mouse.pageX", mouse.pageX);
+    console.log("mouse.pageY", mouse.pageY);
+
     const clickedEle = e.target as HTMLDivElement;
     if (
       clickedEle.id === `${node.rowIndex}-1` ||

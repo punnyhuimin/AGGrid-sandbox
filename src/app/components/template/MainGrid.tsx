@@ -2,10 +2,10 @@
 
 import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { CustomAggrid } from "../aggrid/CustomAggrid";
 import TestContextMenu from "../contextMenu/TestContextMenu";
+import { CustomAggridRowMenu } from "../aggrid/CustomAggridRowMenu";
+import { CustomAggridCellMenu } from "../aggrid/CustomAggridCellMenu";
 
 export default function MainGrid() {
   return (
@@ -24,21 +24,23 @@ export default function MainGrid() {
           {/* <HighlightedCard /> */}
           <TestContextMenu />
         </Grid>
-        <Grid size={{ xs: 12, md: 6 }}>{/* <SessionsChart /> */}</Grid>
         <Grid size={{ xs: 12, md: 6 }}>{/* <PageViewsBarChart /> */}</Grid>
       </Grid>
       <Typography component="h2" variant="h6" sx={{ mb: 2 }}>
         Details
       </Typography>
       <Grid container spacing={2} columns={12}>
-        <Grid size={{ xs: 12, lg: 9 }}>
-          <CustomAggrid />
+        <Typography component="h3" variant="h6" sx={{ mb: 1 }}>
+          Custom context menu (beyond AGGRID)
+        </Typography>
+        <Grid size={{ xs: 12, lg: 12 }}>
+          <CustomAggridCellMenu />
         </Grid>
-        <Grid size={{ xs: 12, lg: 3 }}>
-          <Stack
-            gap={2}
-            direction={{ xs: "column", sm: "row", lg: "column" }}
-          ></Stack>
+        <Typography component="h3" variant="h6" sx={{ mb: 1 }}>
+          Custom context menu (w/ AGGRID)
+        </Typography>
+        <Grid size={{ xs: 12, lg: 12 }}>
+          <CustomAggridRowMenu />
         </Grid>
       </Grid>
     </Box>

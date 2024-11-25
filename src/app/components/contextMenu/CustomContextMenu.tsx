@@ -25,7 +25,7 @@ const CustomContextMenu = (props: CustomContextMenuProps) => {
   return (
     <menu
       // style={{ top: "200px", left: "300px" }}
-      style={{ top: positionX + "px", left: positionY + "px" }}
+      style={{ top: positionY + "px", left: positionX + "px" }}
       className={`context-menu ${isToggled ? "active" : ""}`}
       ref={contextMenuRef}
     >

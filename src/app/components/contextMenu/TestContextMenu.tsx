@@ -1,13 +1,16 @@
-import { useRef, MouseEvent, useState } from "react";
+import { useRef, MouseEvent, useState, useEffect, useMemo } from "react";
 import CustomContextMenu from "./CustomContextMenu";
 
 const TestContextMenu = () => {
-  const [people, setPeople] = useState([
-    { id: 1, name: "john", selected: false },
-    { id: 2, name: "john2", selected: false },
-    { id: 3, name: "john3", selected: false },
-    { id: 4, name: "john4", selected: false },
-  ]);
+  const people = useMemo(
+    () => [
+      { id: 1, name: "john", selected: false },
+      { id: 2, name: "john2", selected: false },
+      { id: 3, name: "john3", selected: false },
+      { id: 4, name: "john4", selected: false },
+    ],
+    []
+  );
 
   const [contextMenu, setContextMenu] = useState({
     position: {
@@ -21,7 +24,6 @@ const TestContextMenu = () => {
   const handleContextMenu = (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const contextMenuAttr = e.currentTarget.getBoundingClientRect();
-    console.log("handle context menu", contextMenuAttr);
     const isLeft = e.clientX < window.innerWidth / 2;
 
     let x;
@@ -38,6 +40,30 @@ const TestContextMenu = () => {
     };
     setContextMenu(newContextMenu);
   };
+
+  function resetContextMenu() {
+    setContextMenu({
+      position: {
+        x: 0,
+        y: 0,
+      },
+      toggled: false,
+    });
+  }
+
+  useEffect(() => {
+    function handler() {
+      if (contextMenuRef.current) {
+        resetContextMenu();
+      }
+    }
+
+    document.addEventListener("click", handler);
+    return () => {
+      document.removeEventListener("click", handler);
+    };
+  });
+
   return (
     <div>
       <ul>
