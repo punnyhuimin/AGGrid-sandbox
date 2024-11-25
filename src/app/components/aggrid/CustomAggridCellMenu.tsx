@@ -38,12 +38,48 @@ export const CustomAggridCellMenu = () => {
 
   const rowData = useMemo<IRowData[]>(
     () => [
-      { make: "Tesla", model: "Model Y", price: 64950, electric: true },
-      { make: "Ford", model: "F-Series", price: 33850, electric: false },
-      { make: "Toyota", model: "Corolla", price: 29600, electric: false },
-      { make: "Mercedes", model: "EQA", price: 48890, electric: true },
-      { make: "Fiat", model: "500", price: 15774, electric: false },
-      { make: "Nissan", model: "Juke", price: 20675, electric: false },
+      {
+        make: "Tesla",
+        model: "Model Y",
+        price: 64950,
+        electric: true,
+        button: { val1: "hi1", val2: "hi2" },
+      },
+      {
+        make: "Ford",
+        model: "F-Series",
+        price: 33850,
+        electric: false,
+        button: { val1: "hi2", val2: "hi3" },
+      },
+      {
+        make: "Toyota",
+        model: "Corolla",
+        price: 29600,
+        electric: false,
+        button: { val1: "toyota", val2: "corolla" },
+      },
+      {
+        make: "Mercedes",
+        model: "EQA",
+        price: 48890,
+        electric: true,
+        button: { val1: "flop", val2: "flip" },
+      },
+      {
+        make: "Fiat",
+        model: "500",
+        price: 15774,
+        electric: false,
+        button: { val1: "fiat", val2: "400" },
+      },
+      {
+        make: "Nissan",
+        model: "Juke",
+        price: 20675,
+        electric: false,
+        button: { val1: "help", val2: "100" },
+      },
     ],
     []
   );
@@ -89,9 +125,14 @@ export const CustomAggridCellMenu = () => {
     setContextMenu({ toggled: false, position: { x: 0, y: 0 } });
   };
 
+  const [selectedData, setSelectedData] = useState();
+  const [selectedRow, setSelectedRow] = useState();
+
   const handleCellContextMenu = (e: CellContextMenuEvent) => {
     // check if this column is button
     if (e.colDef.field === "button" && contextMenuRef.current) {
+      setSelectedRow(e.data);
+      setSelectedData(e.value);
       const contextMenuAttr = contextMenuRef.current.getBoundingClientRect();
       if (e.event) {
         const event = e.event as PointerEvent;
@@ -168,15 +209,17 @@ export const CustomAggridCellMenu = () => {
           positionY={contextMenu.position.y}
           buttons={[
             {
-              text: "Do something",
+              text: "See selected value",
               icon: ":)",
-              onClick: () => alert("hello"),
+              onClick: () =>
+                alert(`Selected value: ${JSON.stringify(selectedData)}`), // TODO: Try to pass in the current params
               isSpacer: false,
             },
             {
-              text: "Do something else",
+              text: "See selected row",
               icon: ":|",
-              onClick: () => alert("hello else"),
+              onClick: () =>
+                alert(`Selected row: ${JSON.stringify(selectedRow)}`), // TODO: Try to pass in the current params
               isSpacer: false,
             },
             {

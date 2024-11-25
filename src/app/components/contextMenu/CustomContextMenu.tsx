@@ -32,6 +32,7 @@ const CustomContextMenu = (props: CustomContextMenuProps) => {
       {buttons.map((button: CustomButtonItem, index: number) => {
         function handleClick(e: MouseEvent<HTMLButtonElement>) {
           e.stopPropagation();
+          button.onClick();
           //   button.onClick(e, rightClickItem);
         }
 
