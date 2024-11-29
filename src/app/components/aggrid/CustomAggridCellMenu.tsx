@@ -21,6 +21,7 @@ import {
 import { AgGridReact } from "ag-grid-react";
 import CustomContextMenu from "../contextMenu/CustomContextMenu";
 import { IRowData } from "./CustomAggridRowMenu";
+import { DoubleRowCellHoverRenderer } from "./DoubleRowCellHoverRenderer";
 LicenseManager.setLicenseKey("KEY HERE");
 
 ModuleRegistry.registerModules([
@@ -96,7 +97,14 @@ export const CustomAggridCellMenu = () => {
         valueFormatter: (p) => "£" + Math.floor(p.value).toLocaleString(),
         flex: 1,
       },
-      { field: "electric", flex: 1 },
+      {
+        field: "electric",
+        flex: 1,
+        editable: true,
+        singleClickEdit: true,
+        cellRenderer: DoubleRowCellHoverRenderer,
+        suppressClickEdit: true,
+      },
       {
         field: "button",
         cellRenderer: DoubleRowCellRenderer,
