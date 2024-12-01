@@ -9,7 +9,8 @@ import {
   IconButton,
 } from "@mui/material";
 import { ICellRendererParams } from "ag-grid-community";
-import { MouseEvent, SyntheticEvent, useState } from "react";
+import { MouseEvent, SyntheticEvent, useRef, useState } from "react";
+import { HoverIconButton, useHover } from "./hover";
 
 export interface CustomButtonItem {
   text: string;
@@ -42,6 +43,9 @@ function waitForElement(id: string, timeout = 1000) {
 export const DoubleRowCellHoverRenderer = (params: ICellRendererParams) => {
   const { node } = params;
 
+  const [greenCellRef, isGreenHover] = useHover();
+  const [redCellRef, isRefHover] = useHover();
+
   const handleClick = (e: SyntheticEvent) => {
     // TODO: Getting triggered irregardless of click or right click. Not sure how to differentiate the two events
     console.log(e.eventPhase, e.nativeEvent);
@@ -60,22 +64,6 @@ export const DoubleRowCellHoverRenderer = (params: ICellRendererParams) => {
         })
         .catch((e) => console.log(e));
     }
-  };
-
-  const [showHoverIcon, setShowHoverIcon] = useState<boolean>(false);
-  const handleMouseEnter = (e: MouseEvent) => {
-    setShowHoverIcon(true);
-  };
-  const handleMouseLeave = () => {
-    setShowHoverIcon(false);
-  };
-
-  const [showFirstHoverIcon, setFirstShowHoverIcon] = useState<boolean>(false);
-  const handleFirstMouseEnter = (e: MouseEvent) => {
-    setFirstShowHoverIcon(true);
-  };
-  const handleFirstMouseLeave = () => {
-    setFirstShowHoverIcon(false);
   };
 
   const [openYoutube, setOpenYoutube] = useState(false);
@@ -104,22 +92,13 @@ export const DoubleRowCellHoverRenderer = (params: ICellRendererParams) => {
           backgroundColor: "green",
           display: "flex",
         }}
-        onMouseEnter={handleFirstMouseEnter}
-        onMouseLeave={handleFirstMouseLeave}
+        ref={greenCellRef}
       >
-        {showFirstHoverIcon ? (
-          <IconButton
-            style={{
-              width: "30%",
-              height: "40px",
-            }}
-            onMouseDown={handleYoutubeClick}
-          >
-            <YouTube />
-          </IconButton>
-        ) : (
-          <></>
-        )}
+        <HoverIconButton
+          Icon={YouTube}
+          isHover={isGreenHover}
+          onClick={handleYoutubeClick}
+        />
         <div
           id={`${node.rowIndex}-1`}
           style={{
@@ -136,21 +115,13 @@ export const DoubleRowCellHoverRenderer = (params: ICellRendererParams) => {
           backgroundColor: "red",
           height: "40px",
         }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        ref={redCellRef}
       >
-        {showHoverIcon ? (
-          <IconButton
-            style={{
-              width: "30%",
-            }}
-            onMouseDown={handleYoutubeClick}
-          >
-            <Lightbulb />
-          </IconButton>
-        ) : (
-          <></>
-        )}
+        <HoverIconButton
+          Icon={Lightbulb}
+          isHover={isRefHover}
+          onClick={handleYoutubeClick}
+        />
         <div
           id={`${node.rowIndex}-2`}
           style={{
