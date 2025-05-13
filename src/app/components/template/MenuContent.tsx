@@ -14,8 +14,8 @@ import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import HelpRoundedIcon from "@mui/icons-material/HelpRounded";
 
 const mainListItems = [
-  { text: "Home", icon: <HomeRoundedIcon /> },
-  { text: "Analytics", icon: <AnalyticsRoundedIcon /> },
+  { text: "AGGRID", icon: <HomeRoundedIcon /> },
+  { text: "RCDOCK", icon: <AnalyticsRoundedIcon /> },
   { text: "Clients", icon: <PeopleRoundedIcon /> },
   { text: "Tasks", icon: <AssignmentRoundedIcon /> },
 ];

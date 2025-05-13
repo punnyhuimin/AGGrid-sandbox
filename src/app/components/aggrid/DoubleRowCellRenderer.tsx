@@ -1,6 +1,10 @@
 import { ICellRendererParams } from "ag-grid-community";
-import { SyntheticEvent } from "react";
+import { ReactNode, SyntheticEvent } from "react";
 
+interface DoubleRowCellRendererProps extends ICellRendererParams {
+  firstComponent: ReactNode;
+  secondComponent: ReactNode;
+}
 export interface CustomButtonItem {
   text: string;
   icon: string;
@@ -28,27 +32,25 @@ function waitForElement(id: string, timeout = 1000) {
     checkElement();
   });
 }
-
-export const DoubleRowCellRenderer = (params: ICellRendererParams) => {
-  const { node } = params;
+export const DoubleRowCellRenderer = (props: DoubleRowCellRendererProps) => {
+  const { node, column, firstComponent, secondComponent } = props;
 
   const handleClick = (e: SyntheticEvent) => {
-    // TODO: Getting triggered irregardless of click or right click. Not sure how to differentiate the two events
-    console.log(e.eventPhase, e.nativeEvent);
-
-    const clickedEle = e.target as HTMLDivElement;
+    const clickedEle = e.currentTarget as HTMLDivElement;
     if (
-      clickedEle.id === `${node.rowIndex}-1` ||
-      clickedEle.id === `${node.rowIndex}-2`
+      clickedEle.id === `${column?.getColId()}-${node.rowIndex}-1` ||
+      clickedEle.id === `${column?.getColId()}-${node.rowIndex}-2`
     ) {
-      waitForElement(`${clickedEle.id}-textfield`, 1000)
-        .then((ele) => {
-          const element = ele as HTMLElement;
-          if (typeof element.focus === "function") {
+      waitForElement(`${clickedEle.id}-textfield`, 1000).then((ele) => {
+        const element = ele as HTMLElement;
+        if (typeof element.focus === "function") {
+          const textFieldId = `${clickedEle.id}-textfield`;
+          const element = document.getElementById(textFieldId);
+          if (element && typeof element.focus === "function") {
             element.focus();
           }
-        })
-        .catch((e) => console.log(e));
+        }
+      });
     }
   };
 
@@ -58,23 +60,19 @@ export const DoubleRowCellRenderer = (params: ICellRendererParams) => {
       style={{ display: "flex", width: "100%", flexDirection: "column" }}
     >
       <div
-        id={`${node.rowIndex}-1`}
-        style={{
-          width: "100%",
-          backgroundColor: "green",
-          height: "40px",
-        }}
-        onMouseDown={handleClick} // can't use onClick as the button is destroyed before the function can run
-      />
-      <div
-        id={`${node.rowIndex}-2`}
-        style={{
-          width: "100%",
-          backgroundColor: "red",
-          height: "40px",
-        }}
+        id={`${column?.getColId()}-${node.rowIndex}-1`}
+        style={{ width: "100%", height: "40px" }}
         onMouseDown={handleClick}
-      />
+      >
+        {firstComponent}
+      </div>
+      <div
+        id={`${column?.getColId()}-${node.rowIndex}-2`}
+        style={{ width: "100%", height: "40px" }}
+        onMouseDown={handleClick}
+      >
+        {secondComponent}
+      </div>
     </div>
   );
 };

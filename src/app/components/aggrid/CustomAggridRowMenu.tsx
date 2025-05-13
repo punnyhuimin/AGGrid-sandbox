@@ -2,7 +2,6 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useColorScheme } from "@mui/material";
 import React, { useMemo } from "react";
-import { DoubleRowCellRenderer } from "./DoubleRowCellRenderer";
 import {
   ModuleRegistry,
   ClientSideRowModelModule,
@@ -19,6 +18,7 @@ import {
   MenuModule,
 } from "ag-grid-enterprise";
 import { AgGridReact } from "ag-grid-react";
+import { DoubleRowTextCellRenderer } from "./DoubleRowTextCellRenderer";
 LicenseManager.setLicenseKey("KEY HERE");
 
 ModuleRegistry.registerModules([
@@ -58,13 +58,14 @@ export const CustomAggridRowMenu = () => {
       },
       {
         field: "price",
-        valueFormatter: (p) => "£" + Math.floor(p.value).toLocaleString(),
+        // valueFormatter: (p) => "£" + Math.floor(p.value).toLocaleString(),
+        // cellRenderer: DurationPickerCellRenderer,
         flex: 1,
       },
       { field: "electric", flex: 1 },
       {
         field: "button",
-        cellRenderer: DoubleRowCellRenderer,
+        cellRenderer: DoubleRowTextCellRenderer,
         cellEditor: DoubleRowCellEditor,
         editable: true,
         singleClickEdit: true,

@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import TestContextMenu from "../contextMenu/TestContextMenu";
 import { CustomAggridRowMenu } from "../aggrid/CustomAggridRowMenu";
 import { CustomAggridCellMenu } from "../aggrid/CustomAggridCellMenu";
+import DurationPicker from "./DurationPickerCellRenderer";
 
 export default function MainGrid() {
   return (
@@ -30,6 +31,8 @@ export default function MainGrid() {
         Details
       </Typography>
       <Grid container spacing={2} columns={12}>
+        <DurationPicker />
+
         <Typography component="h3" variant="h6" sx={{ mb: 1 }}>
           Custom context menu (beyond AGGRID)
         </Typography>

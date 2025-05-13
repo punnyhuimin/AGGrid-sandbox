@@ -12,11 +12,11 @@ export default ({
   onValueChange,
   eventKey,
   rowIndex,
+  column,
 }: CustomCellEditorProps) => {
   const updateValue = (val: string) => {
     onValueChange(val === "" ? null : val);
   };
-
   useEffect(() => {
     let startValue;
 
@@ -49,14 +49,14 @@ export default ({
       }}
     >
       <TextField
-        id={`${rowIndex}-1-textfield`}
+        id={`${column?.getColId()}-${rowIndex}-1-textfield`}
         value={value || ""}
         ref={refInput}
         style={{ width: "100%" }}
         onChange={(event) => updateValue(event.target.value)}
       />
       <TextField
-        id={`${rowIndex}-2-textfield`}
+        id={`${column?.getColId()}-${rowIndex}-2-textfield`}
         value={value || ""}
         ref={refInput}
         style={{ width: "100%" }}

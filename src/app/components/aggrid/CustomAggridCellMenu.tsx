@@ -2,7 +2,6 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import { useColorScheme } from "@mui/material";
 import React, { useState, useMemo, useRef, useEffect } from "react";
-import { DoubleRowCellRenderer } from "./DoubleRowCellRenderer";
 import {
   ModuleRegistry,
   ClientSideRowModelModule,
@@ -107,7 +106,7 @@ export const CustomAggridCellMenu = () => {
       },
       {
         field: "button",
-        cellRenderer: DoubleRowCellRenderer,
+        cellRenderer: DoubleRowCellHoverRenderer,
         cellEditor: DoubleRowCellEditor,
         editable: true,
         singleClickEdit: true,
