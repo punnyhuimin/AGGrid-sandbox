@@ -81,7 +81,7 @@ export const CustomAggridCellMenu = () => {
         button: { val1: "help", val2: "100" },
       },
     ],
-    []
+    [],
   );
 
   const columnDefs = useMemo<(ColDef<any, any> | ColGroupDef<any>)[]>(() => {
@@ -94,6 +94,7 @@ export const CustomAggridCellMenu = () => {
       {
         field: "price",
         valueFormatter: (p) => "£" + Math.floor(p.value).toLocaleString(),
+        editable: true,
         flex: 1,
       },
       {
@@ -206,6 +207,10 @@ export const CustomAggridCellMenu = () => {
           rowHeight={80}
           suppressContextMenu
           preventDefaultOnContextMenu
+          gridOptions={{
+            undoRedoCellEditing: true,
+            undoRedoCellEditingLimit: 20,
+          }}
           onCellContextMenu={handleCellContextMenu}
           popupParent={popupParent} // Need to do this to ensure that the popup falls outside of the table
         />

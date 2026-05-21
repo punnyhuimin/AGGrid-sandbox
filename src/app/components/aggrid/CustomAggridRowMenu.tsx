@@ -46,7 +46,7 @@ export const CustomAggridRowMenu = () => {
       { make: "Fiat", model: "500", price: 15774, electric: false },
       { make: "Nissan", model: "Juke", price: 20675, electric: false },
     ],
-    []
+    [],
   );
 
   const columnDefs = useMemo<(ColDef<any, any> | ColGroupDef<any>)[]>(() => {
@@ -58,8 +58,9 @@ export const CustomAggridRowMenu = () => {
       },
       {
         field: "price",
-        // valueFormatter: (p) => "£" + Math.floor(p.value).toLocaleString(),
-        // cellRenderer: DurationPickerCellRenderer,
+        valueFormatter: (p) => "£" + Math.floor(p.value).toLocaleString(),
+        editable: true,
+        singleClickEdit: true,
         flex: 1,
       },
       { field: "electric", flex: 1 },
@@ -108,6 +109,10 @@ export const CustomAggridRowMenu = () => {
           columnDefs={columnDefs}
           rowHeight={80}
           popupParent={popupParent}
+          gridOptions={{
+            undoRedoCellEditing: true,
+            undoRedoCellEditingLimit: 20,
+          }}
           getContextMenuItems={getContextMenuItems}
         />
       </div>
